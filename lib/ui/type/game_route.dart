@@ -1,5 +1,7 @@
 enum GameRoute {
-  mainMenu('/'),
+  welcomeMenu('/'),
+  auth('/auth'),
+  mainMenu('/menu'),
   gameplay('/gameplay');
 
   const GameRoute(this.path);

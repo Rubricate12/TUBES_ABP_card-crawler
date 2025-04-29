@@ -65,6 +65,12 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                           });
                         },
                       ),
+                      MenuItem(
+                        title: 'EXIT',
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, GameRoute.welcomeMenu.path);
+                        },
+                      ),
                     ],
                   ),
                 ),
