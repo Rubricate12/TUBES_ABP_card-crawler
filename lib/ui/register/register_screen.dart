@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '/services/api_service.dart';
 import 'dart:convert';
 import 'package:card_crawler/ui/type/game_route.dart';
+import 'package:card_crawler/provider/auth/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegScreen extends StatefulWidget {
   const RegScreen({super.key});
@@ -32,12 +34,16 @@ class _AuthScreenState extends State<RegScreen> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
+        final username = data['user']['username'];
+
         _showMessage('Success: ${data['message'] ?? 'Logged in/Registered successfully!'}');
 
+        if(!mounted) return; //check agar tidak ada masalah context
         await Future.delayed(const Duration(milliseconds:50));
+        Provider.of<AuthProvider>(context, listen: false).login(username);
 
         //pindah ke MainMenu
-        if(!mounted) return; //check agar tidak ada masalah context
+
         if(isLogin == true){
           Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
         }else{

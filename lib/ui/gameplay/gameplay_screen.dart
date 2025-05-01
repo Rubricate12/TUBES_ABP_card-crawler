@@ -13,11 +13,12 @@ import 'package:card_crawler/ui/gameplay/widget/main_section.dart';
 import 'package:card_crawler/ui/gameplay/widget/dialog/pause_dialog.dart';
 import 'package:card_crawler/ui/gameplay/widget/dialog/replace_accessory_dialog.dart';
 import 'package:card_crawler/ui/gameplay/widget/side_section.dart';
+import 'package:card_crawler/provider/auth/auth_provider.dart';
+import 'package:card_crawler/provider/gameplay/gameplay_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/gameplay/model/game_card.dart';
-import '../../provider/gameplay/gameplay_provider.dart';
 import '../../provider/gameplay/model/game_data.dart';
 import '../../provider/gameplay/type/card_location.dart';
 import '../../provider/gameplay/type/ui_action.dart';
@@ -36,7 +37,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<GameplayProvider>().init(gameData: widget.gameData);
+    final username = context.read<AuthProvider>().username;
+    context.read<GameplayProvider>().init(gameData: widget.gameData,username: username);
   }
 
   @override
@@ -382,7 +384,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       ),
                       _ => PauseDialog(
                         onRestart: () {
-                          gameplay.init();
+                          final username = context.read<AuthProvider>().username;
+                          gameplay.init(gameData: widget.gameData,username: username);
                         },
                         onDeviceSave: () {
                           gameplay.uiAction(SaveToDevice());

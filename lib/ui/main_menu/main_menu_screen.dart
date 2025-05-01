@@ -7,6 +7,7 @@ import 'package:card_crawler/ui/widget/menu_container.dart';
 import 'package:card_crawler/ui/widget/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:card_crawler/provider/auth/auth_provider.dart';
 
 import '../theme/color.dart';
 
@@ -20,6 +21,13 @@ class MainMenuScreen extends StatefulWidget {
 class _MainMenuScreenState extends State<MainMenuScreen> {
   bool isContinueDialogVisible = false;
   bool isAchievementsDialogVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final username = context.read<AuthProvider>().username;
+    context.read<MainMenuProvider>().loadAchievements(username);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +67,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       MenuItem(
                         title: 'ACHIEVEMENTS',
                         onPressed: () {
-                          provider.loadAchievements();
+                          final username = context.read<AuthProvider>().username;
+                          context.read<MainMenuProvider>().loadAchievements(username);
                           setState(() {
                             isAchievementsDialogVisible = true;
                           });
@@ -68,6 +77,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       MenuItem(
                         title: 'EXIT',
                         onPressed: () {
+                          context.read<AuthProvider>().logout();
                           Navigator.pushReplacementNamed(context, GameRoute.welcomeMenu.path);
                         },
                       ),

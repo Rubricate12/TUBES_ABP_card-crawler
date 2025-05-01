@@ -8,6 +8,8 @@ import 'package:card_crawler/provider/gameplay/model/game_card.dart';
 import 'package:card_crawler/provider/gameplay/type/gameplay_state.dart';
 import 'package:card_crawler/provider/gameplay/type/card_location.dart';
 import 'package:card_crawler/provider/gameplay/type/ui_action.dart';
+import 'package:card_crawler/provider/auth/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/achievements_service.dart';
@@ -52,15 +54,20 @@ class GameplayProvider extends ChangeNotifier {
 
   final Set<int> _unlockedAchievementIds = {};
 
-  Future<void> init({GameData? gameData}) async {
+  String? _username;
+  String? get username => _username;
+
+  Future<void> init({GameData? gameData,required String? username}) async {
     _state = Playing();
     _pendingStates.clear();
+    _username = username;
 
     _data =
         gameData ??
         (GameData(deck: gameCards.toList()..shuffle())..refillDungeonField());
 
     _resetCardView();
+    if(username == null) return;
 
     for (var card in _data.dungeonField) {
       if (card != null && card.effect is OnField) {
@@ -74,7 +81,7 @@ class GameplayProvider extends ChangeNotifier {
     notifyListeners();
 
     final (unlockedAchievements, _) =
-        await AchievementsService.getAchievements();
+        await AchievementsService.getAchievements(username);
     _unlockedAchievementIds.addAll(
       unlockedAchievements.map((achievement) => achievement.id),
     );
@@ -290,12 +297,14 @@ class GameplayProvider extends ChangeNotifier {
     _state = nextState ?? Playing();
   }
 
-  void _unlockAchievement(achievement) {
+  void _unlockAchievement(Achievement achievement) {
+    if(username == null) return;
+
     final isUnlocked = _unlockedAchievementIds.contains(achievement.id);
     if (!isUnlocked) {
       _unlockedAchievementIds.add(achievement.id);
       _queueState(AchievementUnlocked(achievement: achievement));
-      AchievementsService.addUnlockedAchievement(achievement);
+      AchievementsService.addUnlockedAchievement(achievement,_username!);
     }
   }
 }
