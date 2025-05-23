@@ -91,30 +91,36 @@ class _GameplayScreenState extends State<GameplayScreen> {
                     SideSection(
                       width: cardWidth,
                       topContent: Center(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 72.0 * uiScale,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ROUND: ${gameplay.round.toString()}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24.0 * uiScale,
-                                  ),
-                                ),
-                                Text(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48.0 * uiScale,
+                              child: Center(
+                                child: Text(
                                   'SCORE: ${gameplay.score.toString()}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20.0 * uiScale,
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 48.0 * uiScale,
+                              child: Center(
+                                child: Text(
+                                  'ROUND: ${gameplay.round.toString()}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24.0 * uiScale,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       cardContent:

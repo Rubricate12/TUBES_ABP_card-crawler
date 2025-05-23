@@ -40,6 +40,8 @@ class GameplayProvider extends ChangeNotifier {
   (CardLocation?, int) get cardWithVisibleEffectDetails =>
       _cardWithVisibleEffectDetails;
 
+  int score = 0;
+
   int get round => _data.round;
 
   int get health => _data.health;
