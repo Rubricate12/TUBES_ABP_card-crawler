@@ -104,7 +104,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   'SCORE: ${gameplay.score.toString()}',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20.0 * uiScale,
+                                    fontSize: 24.0 * uiScale,
                                   ),
                                 ),
                               ),
