@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/gameplay/model/game_data.dart';
 import 'model/savable_game_data.dart';
 
-class LocalGameSaveService {
+class GameSaveService {
   static const _key = "game_data";
 
   static Future<void> save(GameData gameData) async {

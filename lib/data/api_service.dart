@@ -30,7 +30,7 @@ class ApiService {
     return response;
   }
 
-  static Future<http.Response> registerUser(String username, String pass) async {
+  static Future<http.Response> register(String username, String password) async {
     //parse api utk register
     final url = Uri.parse('$baseUrl/register');
     //build response utk post method ke database
@@ -42,7 +42,7 @@ class ApiService {
       },
       body: jsonEncode({
         'username': username,
-        'pass': pass,
+        'pass': password,
       }),
     );
 

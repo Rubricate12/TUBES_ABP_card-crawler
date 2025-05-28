@@ -387,10 +387,9 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           final username = context.read<AuthProvider>().username;
                           gameplay.init(gameData: widget.gameData,username: username);
                         },
-                        onDeviceSave: () {
+                        onSave: () {
                           gameplay.uiAction(SaveToDevice());
                         },
-                        onCloudSave: null,
                         onExit: () {
                           Navigator.pop(context);
                         },

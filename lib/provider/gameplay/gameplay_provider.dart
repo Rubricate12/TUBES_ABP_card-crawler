@@ -1,4 +1,4 @@
-import 'package:card_crawler/data/local_game_save_service.dart';
+import 'package:card_crawler/data/game_save_service.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/accessory_effect.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/consumable_effect.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/effect.dart';
@@ -8,8 +8,6 @@ import 'package:card_crawler/provider/gameplay/model/game_card.dart';
 import 'package:card_crawler/provider/gameplay/type/gameplay_state.dart';
 import 'package:card_crawler/provider/gameplay/type/card_location.dart';
 import 'package:card_crawler/provider/gameplay/type/ui_action.dart';
-import 'package:card_crawler/provider/auth/auth_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/achievements_service.dart';
@@ -55,11 +53,11 @@ class GameplayProvider extends ChangeNotifier {
   int get score => _data.score;
 
   String? _username;
-  String? get username => _username;
 
-  Future<void> init({GameData? gameData,required String? username}) async {
+  Future<void> init({GameData? gameData, required String? username}) async {
     _state = Playing();
     _pendingStates.clear();
+
     _username = username;
 
     _data =
@@ -67,7 +65,6 @@ class GameplayProvider extends ChangeNotifier {
         (GameData(deck: gameCards.toList()..shuffle())..refillDungeonField());
 
     _resetCardView();
-    if(username == null) return;
 
     for (var card in _data.dungeonField) {
       if (card != null && card.effect is OnField) {
@@ -80,8 +77,9 @@ class GameplayProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    final (unlockedAchievements, _) =
-        await AchievementsService.getAchievements(username);
+    final (unlockedAchievements, _) = await AchievementsService.getAchievements(
+      username,
+    );
     _unlockedAchievementIds.addAll(
       unlockedAchievements.map((achievement) => achievement.id),
     );
@@ -91,7 +89,7 @@ class GameplayProvider extends ChangeNotifier {
     _resetCardView();
 
     for (var card in _data.accessories) {
-      if (card.effect is SpectreBoots){
+      if (card.effect is SpectreBoots) {
         _data.canFlee = true;
       }
     }
@@ -103,7 +101,7 @@ class GameplayProvider extends ChangeNotifier {
           _data.removeCardFromDungeonField(index);
 
           for (var acc in _data.accessories) {
-            if (acc.effect is AccessoryEffect){
+            if (acc.effect is AccessoryEffect) {
               acc.effect.trigger(_data);
             }
           }
@@ -117,8 +115,8 @@ class GameplayProvider extends ChangeNotifier {
             case GameCardType.consumable:
               {
                 if (!_data.hasHealed) {
-                    _data.health += card.value;
-                    _data.hasHealed = true;
+                  _data.health += card.value;
+                  _data.hasHealed = true;
                 }
                 _data.graveyard.add(card);
               }
@@ -134,8 +132,6 @@ class GameplayProvider extends ChangeNotifier {
               }
             case GameCardType.monster:
               {
-                _data.deck.clear();
-
                 card.value += _data.tempBuff;
                 _data.buff = 0;
                 _data.tempBuff = 0;
@@ -166,16 +162,16 @@ class GameplayProvider extends ChangeNotifier {
                   card.effect.trigger(_data);
                   _queueState(EffectTriggered(card: card));
                 }
-                if (_data.weapon?.effect is CursedAxe){
+                if (_data.weapon?.effect is CursedAxe) {
                   _data.cursedAxeCounter++;
-                  if (_data.cursedAxeCounter % 2 != 0){
+                  if (_data.cursedAxeCounter % 2 != 0) {
                     _data.durability = 0;
                   } else {
                     _data.durability = 15;
                   }
                 }
 
-                if (_data.weapon?.effect is ArtemisBow){
+                if (_data.weapon?.effect is ArtemisBow) {
                   _data.weapon?.effect.trigger(_data);
                 }
 
@@ -270,7 +266,7 @@ class GameplayProvider extends ChangeNotifier {
         }
       case SaveToDevice():
         {
-          LocalGameSaveService.save(_data);
+          GameSaveService.save(_data);
           _triggerPendingState();
         }
       case SaveToCloud():
@@ -297,13 +293,12 @@ class GameplayProvider extends ChangeNotifier {
   }
 
   void _unlockAchievement(Achievement achievement) {
-    if(username == null) return;
-
     final isUnlocked = _unlockedAchievementIds.contains(achievement.id);
+
     if (!isUnlocked) {
       _unlockedAchievementIds.add(achievement.id);
       _queueState(AchievementUnlocked(achievement: achievement));
-      AchievementsService.tryUnlockAchievement(achievement, _username);
+      AchievementsService.unlockAchievement(achievement, _username);
     }
   }
 }

@@ -1,14 +1,14 @@
-import 'package:card_crawler/data/local_game_save_service.dart';
 import 'package:card_crawler/provider/gameplay/type/achievement.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/achievements_service.dart';
+import '../../data/game_save_service.dart';
 import '../gameplay/model/game_data.dart';
 
 class MainMenuProvider extends ChangeNotifier {
-  GameData? _localGameData;
+  GameData? _savedGameData;
 
-  GameData? get localGameData => _localGameData;
+  GameData? get savedGameData => _savedGameData;
 
   final List<Achievement> _unlockedAchievements = List.empty(growable: true);
 
@@ -19,17 +19,18 @@ class MainMenuProvider extends ChangeNotifier {
   List<Achievement> get lockedAchievements => _lockedAchievements;
 
   Future<void> loadGameData() async {
-    _localGameData = await LocalGameSaveService.load();
+    _savedGameData = await GameSaveService.load();
     notifyListeners();
   }
 
   Future<void> loadAchievements(String? username) async {
     _unlockedAchievements.clear();
     _lockedAchievements.clear();
-    notifyListeners();
+
     if (username != null) {
-      await AchievementsService.syncAchievementsFromServer(username);
+      await AchievementsService.syncAchievements(username);
     }
+
     final (unlockedAchievements, lockedAchievements) =
         await AchievementsService.getAchievements(username);
 
@@ -37,7 +38,6 @@ class MainMenuProvider extends ChangeNotifier {
     _unlockedAchievements.addAll(unlockedAchievements);
     _lockedAchievements.clear();
     _lockedAchievements.addAll(lockedAchievements);
-
 
     notifyListeners();
   }

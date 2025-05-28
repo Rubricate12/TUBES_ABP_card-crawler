@@ -1,3 +1,4 @@
+import 'package:card_crawler/card_crawler_app.dart';
 import 'package:card_crawler/provider/main_menu/main_menu_provider.dart';
 import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:card_crawler/ui/main_menu/widget/achievements_dialog.dart';
@@ -18,15 +19,35 @@ class MainMenuScreen extends StatefulWidget {
   State<MainMenuScreen> createState() => _MainMenuScreenState();
 }
 
-class _MainMenuScreenState extends State<MainMenuScreen> {
-  bool isContinueDialogVisible = false;
+class _MainMenuScreenState extends State<MainMenuScreen> with RouteAware {
   bool isAchievementsDialogVisible = false;
 
-  @override
-  void initState() {
-    super.initState();
+  void _refreshStates() {
     final username = context.read<AuthProvider>().username;
     context.read<MainMenuProvider>().loadAchievements(username);
+    context.read<MainMenuProvider>().loadGameData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    _refreshStates();
+  }
+
+  @override
+  void didPush() {
+    _refreshStates();
   }
 
   @override
@@ -56,64 +77,44 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       ),
                       MenuItem(
                         title: 'CONTINUE',
-                        onPressed: () {
-                          provider.loadGameData();
-                          setState(() {
-                            isContinueDialogVisible = true;
-                          });
-                        },
+                        onPressed:
+                            provider.savedGameData == null
+                                ? null
+                                : () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    GameRoute.gameplay.path,
+                                    arguments: provider.savedGameData,
+                                  );
+                                },
                       ),
                       MenuItem(title: 'LEADERBOARD', onPressed: null),
                       MenuItem(
                         title: 'ACHIEVEMENTS',
                         onPressed: () {
-                          final username = context.read<AuthProvider>().username;
-                          context.read<MainMenuProvider>().loadAchievements(username);
+                          final username =
+                              context.read<AuthProvider>().username;
+                          context.read<MainMenuProvider>().loadAchievements(
+                            username,
+                          );
                           setState(() {
                             isAchievementsDialogVisible = true;
                           });
                         },
                       ),
                       MenuItem(
-                        title: 'EXIT',
+                        title: 'SWITCH ACCOUNT',
                         onPressed: () {
                           context.read<AuthProvider>().logout();
-                          Navigator.pushReplacementNamed(context, GameRoute.welcomeMenu.path);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            GameRoute.welcome.path,
+                          );
                         },
                       ),
                     ],
                   ),
                 ),
-                if (isContinueDialogVisible)
-                  DialogScrim(
-                    onDismiss: () {
-                      setState(() {
-                        isContinueDialogVisible = false;
-                      });
-                    },
-                    margin: EdgeInsets.all(64.0 * uiScale),
-                    child: MenuContainer(
-                      children: [
-                        MenuItem(
-                          title: 'CONTINUE FROM DEVICE',
-                          onPressed:
-                              provider.localGameData == null
-                                  ? null
-                                  : () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      GameRoute.gameplay.path,
-                                      arguments: provider.localGameData,
-                                    );
-                                    setState(() {
-                                      isContinueDialogVisible = false;
-                                    });
-                                  },
-                        ),
-                        MenuItem(title: 'CONTINUE FROM CLOUD', onPressed: null),
-                      ],
-                    ),
-                  ),
                 if (isAchievementsDialogVisible)
                   DialogScrim(
                     onDismiss: () {
