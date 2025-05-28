@@ -13,7 +13,6 @@ class SavableGameData {
     this.level,
     this.score,
     this.round,
-    this.score,
     this.health,
     this.durability,
     this.buff,
@@ -36,7 +35,6 @@ class SavableGameData {
   int level;
   int score;
   int round;
-  int score;
   int health;
   int durability;
   int buff;
@@ -81,7 +79,6 @@ class SavableGameData {
     level: level,
     score: score,
     round: round,
-    score: score,
     health: health,
     durability: durability,
     buff: buff,
@@ -106,7 +103,6 @@ class SavableGameData {
         json['level'],
         json['score'],
         json['round'],
-        json['score'],
         json['health'],
         json['durability'],
         json['buff'],
@@ -130,7 +126,6 @@ class SavableGameData {
     'level': level,
     'score': score,
     'round': round,
-    'score': score,
     'health': health,
     'durability': durability,
     'buff': buff,

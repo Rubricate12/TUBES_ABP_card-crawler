@@ -12,7 +12,6 @@ class GameData {
     this.level = 1,
     this.score = 0,
     this.round = 1,
-    this.score = 0,
     this.health = 20,
     this.durability = 0,
     this.buff = 0,
@@ -40,7 +39,6 @@ class GameData {
   int level;
   int score;
   int round;
-  int score;
   int health;
   int durability;
   int buff;
@@ -85,7 +83,6 @@ class GameData {
     level,
     score,
     round,
-    score,
     health,
     durability,
     buff,
