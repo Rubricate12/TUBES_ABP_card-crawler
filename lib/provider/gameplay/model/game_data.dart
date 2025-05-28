@@ -10,6 +10,7 @@ class GameData {
     List<GameCard>? graveyard,
     this.pickedCard,
     this.level = 1,
+    this.score = 0,
     this.round = 1,
     this.score = 0,
     this.health = 20,
@@ -23,7 +24,6 @@ class GameData {
     this.emperorCounter = 0,
     this.hasHealed = false,
     this.canFlee = true,
-
   }) {
     this.deck = deck ?? List.empty(growable: true);
     this.dungeonField = dungeonField ?? List.filled(4, null);
@@ -38,6 +38,7 @@ class GameData {
   List<GameCard> graveyard = List.empty(growable: true);
   GameCard? pickedCard;
   int level;
+  int score;
   int round;
   int score;
   int health;
@@ -82,6 +83,7 @@ class GameData {
     graveyard.map((card) => card.id).toList(),
     pickedCard?.id,
     level,
+    score,
     round,
     score,
     health,

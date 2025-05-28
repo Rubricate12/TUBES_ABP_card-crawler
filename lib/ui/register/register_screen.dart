@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:card_crawler/ui/type/game_route.dart';
 import 'package:card_crawler/provider/auth/auth_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:card_crawler/data/achievements_service.dart';
 
 class RegScreen extends StatefulWidget {
   const RegScreen({super.key});
@@ -34,31 +35,60 @@ class _AuthScreenState extends State<RegScreen> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
-        final username = data['user']['username'];
+
+        // Ensure 'user' and 'user.username' exist and are not null
+        if (data['user'] == null || data['user']['username'] == null) {
+          _showMessage('Error: Invalid response from server - user data missing.');
+          return; // Stop processing if username is not available
+        }
+        final String authenticatedUsername = data['user']['username'];
+
+        if (authenticatedUsername.isEmpty) {
+          _showMessage('Error: Invalid response from server - username is empty.');
+          return; // Stop processing if username is empty
+        }
 
         _showMessage('Success: ${data['message'] ?? 'Logged in/Registered successfully!'}');
 
-        if(!mounted) return; //check agar tidak ada masalah context
-        await Future.delayed(const Duration(milliseconds:50));
-        Provider.of<AuthProvider>(context, listen: false).login(username);
+        if(!mounted) return; //check apakah widget masih dimounted agar tidak ada masalah context
+        // 1. Update AuthProvider state with the authenticated username
+        // This makes the username available throughout your app via Provider.
+        Provider.of<AuthProvider>(context, listen: false).login(authenticatedUsername);
 
+        // --- ACHIEVEMENT SYNCING LOGIC ---
+        // 2. Sync achievements from the server for the newly authenticated user.
+        //    This ensures the local SharedPreferences for this user's key is up-to-date
+        //    with what's currently on the server. This is crucial before merging guest data.
+        await AchievementsService.syncAchievementsFromServer(authenticatedUsername);
+
+        // 3. Sync any local guest achievements to this user's account.
+        //    This function will:
+        //    - Read guest achievements from local storage.
+        //    - Push any achievements not already on the server to the server.
+        //    - Merge all guest achievements into the user's local SharedPreferences.
+        //    - Clear the guest achievements from local storage.
+        await AchievementsService.syncGuestAchievementsToUserAccount(authenticatedUsername);
         //pindah ke MainMenu
 
-        if(isLogin == true){
+        // if(isLogin == true){
+        //   Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
+        // }else{
+        //   _usernameController.clear();
+        //   _passwordController.clear();
+        //   setState(() {
+        //     isLogin = true;
+        //   });
+        // }
+        // 4. Navigate to the MainMenu
+        if (mounted) { // Check mounted again before navigation
           Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
-        }else{
-          _usernameController.clear();
-          _passwordController.clear();
-          setState(() {
-            isLogin = true;
-          });
         }
       } else {
         final data = json.decode(response.body);
         _showMessage('Error: ${data['message'] ?? 'Something went wrong!'}');
       }
     } catch (e) {
-      _showMessage('Failed to connect to server.');
+      _showMessage('Failed to connect to server: $e');
     }
   }
 

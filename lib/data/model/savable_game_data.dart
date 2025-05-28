@@ -11,6 +11,7 @@ class SavableGameData {
     this.graveyard,
     this.pickedCard,
     this.level,
+    this.score,
     this.round,
     this.score,
     this.health,
@@ -33,6 +34,7 @@ class SavableGameData {
   List<int> graveyard;
   int? pickedCard;
   int level;
+  int score;
   int round;
   int score;
   int health;
@@ -77,6 +79,7 @@ class SavableGameData {
             ? null
             : gameCards.firstWhere((card) => card.id == pickedCard),
     level: level,
+    score: score,
     round: round,
     score: score,
     health: health,
@@ -101,6 +104,7 @@ class SavableGameData {
         List<int>.from(json['graveyard']),
         json['pickedCard'],
         json['level'],
+        json['score'],
         json['round'],
         json['score'],
         json['health'],
@@ -124,6 +128,7 @@ class SavableGameData {
     'graveyard': graveyard,
     'pickedCard': pickedCard,
     'level': level,
+    'score': score,
     'round': round,
     'score': score,
     'health': health,

@@ -42,8 +42,6 @@ class GameplayProvider extends ChangeNotifier {
   (CardLocation?, int) get cardWithVisibleEffectDetails =>
       _cardWithVisibleEffectDetails;
 
-  int score = 0;
-
   int get round => _data.round;
 
   int get health => _data.health;
@@ -53,6 +51,8 @@ class GameplayProvider extends ChangeNotifier {
   bool get canFlee => _data.canFlee;
 
   final Set<int> _unlockedAchievementIds = {};
+
+  int get score => _data.score;
 
   String? _username;
   String? get username => _username;
@@ -102,8 +102,6 @@ class GameplayProvider extends ChangeNotifier {
           _data.pickedCard = card;
           _data.removeCardFromDungeonField(index);
 
-          //bool cheat = true;
-
           for (var acc in _data.accessories) {
             if (acc.effect is AccessoryEffect){
               acc.effect.trigger(_data);
@@ -132,11 +130,13 @@ class GameplayProvider extends ChangeNotifier {
                   _data.graveyard.add(_data.weapon!);
                   _data.weapon = card;
                 }
-                _data.durability = 20;
+                _data.durability = 15;
               }
             case GameCardType.monster:
               {
-                card.value += _data.buff;
+                _data.deck.clear();
+
+                card.value += _data.tempBuff;
                 _data.buff = 0;
                 _data.tempBuff = 0;
 
@@ -160,8 +160,6 @@ class GameplayProvider extends ChangeNotifier {
 
                 _data.graveyard.add(card);
 
-                _data.score = card.value * 100;
-
                 _data.weapon?.value -= _data.tempBuff;
 
                 if (card.effect is OnKill) {
@@ -173,7 +171,7 @@ class GameplayProvider extends ChangeNotifier {
                   if (_data.cursedAxeCounter % 2 != 0){
                     _data.durability = 0;
                   } else {
-                    _data.durability = 20;
+                    _data.durability = 15;
                   }
                 }
 
@@ -181,7 +179,7 @@ class GameplayProvider extends ChangeNotifier {
                   _data.weapon?.effect.trigger(_data);
                 }
 
-                _data.score += (card.value * 100);
+                _data.score += card.value * 100;
               }
             case GameCardType.accessory:
               {
@@ -204,6 +202,7 @@ class GameplayProvider extends ChangeNotifier {
 
             _queueState(Finished(isWin: true));
           }
+
           if (_data.health > 20) _data.health = 20;
 
           _data.buff = 0;
@@ -304,7 +303,7 @@ class GameplayProvider extends ChangeNotifier {
     if (!isUnlocked) {
       _unlockedAchievementIds.add(achievement.id);
       _queueState(AchievementUnlocked(achievement: achievement));
-      AchievementsService.addUnlockedAchievement(achievement,_username!);
+      AchievementsService.tryUnlockAchievement(achievement, _username);
     }
   }
 }
