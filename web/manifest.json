@@ -1,6 +1,6 @@
 {
-    "name": "card_crawler",
-    "short_name": "card_crawler",
+    "name": "Card Crawler",
+    "short_name": "Card Crawler",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

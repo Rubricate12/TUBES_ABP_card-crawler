@@ -2,6 +2,7 @@ import 'package:card_crawler/card_crawler_app.dart';
 import 'package:card_crawler/provider/main_menu/main_menu_provider.dart';
 import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:card_crawler/ui/main_menu/widget/achievements_dialog.dart';
+import 'package:card_crawler/ui/main_menu/widget/leaderboard_dialog.dart';
 import 'package:card_crawler/ui/type/game_route.dart';
 import 'package:card_crawler/ui/widget/dialog_scrim.dart';
 import 'package:card_crawler/ui/widget/menu_container.dart';
@@ -20,12 +21,13 @@ class MainMenuScreen extends StatefulWidget {
 }
 
 class _MainMenuScreenState extends State<MainMenuScreen> with RouteAware {
+  bool isLeaderboardDialogVisible = false;
   bool isAchievementsDialogVisible = false;
 
   void _refreshStates() {
     final username = context.read<AuthProvider>().username;
-    context.read<MainMenuProvider>().loadAchievements(username);
     context.read<MainMenuProvider>().loadGameData();
+    context.read<MainMenuProvider>().loadAchievements(username);
   }
 
   @override
@@ -88,15 +90,18 @@ class _MainMenuScreenState extends State<MainMenuScreen> with RouteAware {
                                   );
                                 },
                       ),
-                      MenuItem(title: 'LEADERBOARD', onPressed: null),
+                      MenuItem(
+                        title: 'LEADERBOARD',
+                        onPressed: () {
+                          context.read<MainMenuProvider>().loadLeaderboard();
+                          setState(() {
+                            isLeaderboardDialogVisible = true;
+                          });
+                        },
+                      ),
                       MenuItem(
                         title: 'ACHIEVEMENTS',
                         onPressed: () {
-                          final username =
-                              context.read<AuthProvider>().username;
-                          context.read<MainMenuProvider>().loadAchievements(
-                            username,
-                          );
                           setState(() {
                             isAchievementsDialogVisible = true;
                           });
@@ -115,6 +120,19 @@ class _MainMenuScreenState extends State<MainMenuScreen> with RouteAware {
                     ],
                   ),
                 ),
+                if (isLeaderboardDialogVisible)
+                  DialogScrim(
+                    onDismiss: () {
+                      context.read<MainMenuProvider>().loadLeaderboard();
+                      setState(() {
+                        isLeaderboardDialogVisible = false;
+                      });
+                    },
+                    margin: EdgeInsets.all(64.0 * uiScale),
+                    child: LeaderboardDialog(
+                      leaderboardEntries: provider.leaderboardEntries,
+                    ),
+                  ),
                 if (isAchievementsDialogVisible)
                   DialogScrim(
                     onDismiss: () {

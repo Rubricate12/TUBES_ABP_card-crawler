@@ -73,17 +73,18 @@ class GameplayProvider extends ChangeNotifier {
       }
     }
 
-    _triggerPendingState();
-
-    notifyListeners();
-
     final (unlockedAchievements, _) = await AchievementsService.getAchievements(
       username,
     );
     _unlockedAchievementIds.addAll(
       unlockedAchievements.map((achievement) => achievement.id),
     );
+
     _unlockAchievement(Achievement.firstStep);
+
+    _triggerPendingState();
+
+    notifyListeners();
   }
 
   void action(GameplayAction action) {

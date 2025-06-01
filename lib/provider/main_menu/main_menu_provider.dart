@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import '../../data/achievements_service.dart';
 import '../../data/game_save_service.dart';
 import '../gameplay/model/game_data.dart';
+import 'model/leaderboard_entry.dart';
 
 class MainMenuProvider extends ChangeNotifier {
   GameData? _savedGameData;
 
   GameData? get savedGameData => _savedGameData;
+
+  final List<LeaderboardEntry> _leaderboardEntries = List.empty(growable: true);
+
+  List<LeaderboardEntry> get leaderboardEntries => _leaderboardEntries;
 
   final List<Achievement> _unlockedAchievements = List.empty(growable: true);
 
@@ -20,6 +25,18 @@ class MainMenuProvider extends ChangeNotifier {
 
   Future<void> loadGameData() async {
     _savedGameData = await GameSaveService.load();
+    notifyListeners();
+  }
+
+  Future<void> loadLeaderboard() async {
+    _leaderboardEntries.clear();
+    _leaderboardEntries.addAll(
+      [
+        LeaderboardEntry(username: 'Vito', score: 1000),
+        LeaderboardEntry(username: 'Riyan', score: 800),
+        LeaderboardEntry(username: 'Hansel', score: 600),
+      ]
+    );
     notifyListeners();
   }
 

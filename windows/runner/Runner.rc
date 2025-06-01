@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "play.cardcrawler" "\0"
-            VALUE "FileDescription", "card_crawler" "\0"
+            VALUE "FileDescription", "Card Crawler" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "card_crawler" "\0"
+            VALUE "InternalName", "CardCrawler" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 play.cardcrawler. All rights reserved." "\0"
-            VALUE "OriginalFilename", "card_crawler.exe" "\0"
-            VALUE "ProductName", "card_crawler" "\0"
+            VALUE "OriginalFilename", "CardCrawler.exe" "\0"
+            VALUE "ProductName", "Card Crawler" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:card_crawler/provider/auth/auth_provider.dart';
 
+import 'platform/url_strategy.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -13,6 +15,7 @@ void main() {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
+  configureApp();
   runApp(
     MultiProvider(
       providers: [
@@ -24,23 +27,3 @@ void main() {
     ),
   );
 }
-
-// import 'package:flutter/material.dart';
-// import 'ui/register/register_screen.dart';
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Auth Demo',
-//       theme: ThemeData(primarySwatch: Colors.blue),
-//       home: const RegScreen(),
-//     );
-//   }
-// }
