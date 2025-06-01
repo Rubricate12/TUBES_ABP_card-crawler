@@ -4,8 +4,8 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
 
 ## Screenshots:
 
-<img src="https://github.com/user-attachments/assets/bb087549-2d71-4090-bc20-77ae6fc8b341" height="512px">
-<img src="https://github.com/user-attachments/assets/e39b031a-f69a-4fce-8e7a-7b7d705fc8ff" height="512px">
+<img src="https://github.com/user-attachments/assets/bb087549-2d71-4090-bc20-77ae6fc8b341">
+<img src="https://github.com/user-attachments/assets/e39b031a-f69a-4fce-8e7a-7b7d705fc8ff">
 
 ## Features:
 
