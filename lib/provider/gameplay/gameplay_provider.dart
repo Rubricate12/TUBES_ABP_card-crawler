@@ -83,6 +83,7 @@ class GameplayProvider extends ChangeNotifier {
     _unlockedAchievementIds.addAll(
       unlockedAchievements.map((achievement) => achievement.id),
     );
+    _unlockAchievement(Achievement.firstStep);
   }
 
   void action(GameplayAction action) {
@@ -119,6 +120,7 @@ class GameplayProvider extends ChangeNotifier {
                   _data.hasHealed = true;
                 }
                 _data.graveyard.add(card);
+                if (card.effect == VolatileElixir() && _data.weapon != null && _data.accessories.length >= 3) _unlockAchievement(Achievement.oops);
               }
             case GameCardType.weapon:
               {
@@ -175,7 +177,9 @@ class GameplayProvider extends ChangeNotifier {
                   _data.weapon?.effect.trigger(_data);
                 }
 
+                if(card.value == 0) _unlockAchievement(Achievement.reducedToAtoms);
                 _data.score += card.value * 100;
+                if (_data.score >= 10000) _unlockAchievement(Achievement.highScore);
               }
             case GameCardType.accessory:
               {
@@ -189,13 +193,12 @@ class GameplayProvider extends ChangeNotifier {
 
           if (_data.health == 0) {
             _queueState(Finished(isWin: false));
+            _unlockAchievement(Achievement.niceTry);
+            if (_data.deck.isEmpty) _unlockAchievement(Achievement.soClose);
           } else if (_data.isDungeonFieldEmpty() && _data.deck.isEmpty) {
             _unlockAchievement(Achievement.dungeonCrawler);
-
-            if (_data.health == 20) {
-              _unlockAchievement(Achievement.perfectAdventurer);
-            }
-
+            if (_data.health == 20) _unlockAchievement(Achievement.perfectAdventurer);
+            if (_data.accessories.isEmpty) _unlockAchievement(Achievement.nakedButNotAfraid);
             _queueState(Finished(isWin: true));
           }
 
@@ -231,6 +234,7 @@ class GameplayProvider extends ChangeNotifier {
           }
           _data.refillDungeonField();
           _data.canFlee = false;
+          _unlockAchievement(Achievement.gottaDash);
         }
     }
 

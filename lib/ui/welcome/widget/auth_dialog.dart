@@ -85,7 +85,7 @@ class _AuthDialogState extends State<AuthDialog> {
       ),
       width: 576.0 * uiScale + 48.0,
       clipBehavior: Clip.antiAlias,
-      child: Padding(
+      child: SingleChildScrollView(
         padding: EdgeInsets.all(24.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
