@@ -30,7 +30,7 @@ class MainMenuProvider extends ChangeNotifier {
   }
 
   Future<void> loadLeaderboard() async {
-    var leaderboardEntries = await LeaderboardService.getLeaderboardEntry();
+    var leaderboardEntries = await LeaderboardService.getLeaderboardEntries();
     _leaderboardEntries.clear();
     _leaderboardEntries.addAll(leaderboardEntries);
     notifyListeners();
@@ -44,8 +44,10 @@ class MainMenuProvider extends ChangeNotifier {
       await AchievementsService.syncAchievements(username);
     }
 
-    final (unlockedAchievements, lockedAchievements) =
-        await AchievementsService.getAchievements(username);
+    final (
+      unlockedAchievements,
+      lockedAchievements,
+    ) = await AchievementsService.getAchievements(username);
 
     _unlockedAchievements.clear();
     _unlockedAchievements.addAll(unlockedAchievements);

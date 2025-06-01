@@ -10,7 +10,7 @@ class TemporalDew extends OnPicked {
 
   @override
   void trigger(GameData data) {
-    if (data.weapon != null){
+    if (data.weapon != null) {
       data.durability = 20;
     }
     data.canFlee = true;
@@ -26,7 +26,7 @@ class TitansShroom extends OnPicked {
 
   @override
   void trigger(GameData data) {
-    if (data.weapon != null){
+    if (data.weapon != null) {
       data.weapon?.value += 3;
     }
   }
@@ -79,7 +79,7 @@ class VolatileElixir extends OnPicked {
         data.dungeonField[i] = null;
       }
     }
-    if (data.weapon != null){
+    if (data.weapon != null) {
       data.graveyard.add(data.weapon!);
       data.durability = 0;
       data.weapon = null;
@@ -98,7 +98,7 @@ class BloodthornBrew extends OnPicked {
 
   @override
   void trigger(GameData data) {
-    if (data.weapon != null){
+    if (data.weapon != null) {
       data.weapon!.value = 30;
       data.durability = 20;
     }

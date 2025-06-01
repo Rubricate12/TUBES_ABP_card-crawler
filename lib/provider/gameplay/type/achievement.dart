@@ -8,9 +8,11 @@ enum Achievement {
   oops(6, 'Oops...', 'Consume the Volatile Elixir with full equipment'),
   highScore(7, 'High Score!', 'Reach 10.000 Score'),
   reducedToAtoms(8, 'Reduced To Atoms', 'Reduce a monster power to 0'),
-  nakedButNotAfraid(9, 'Naked But Not Afraid', 'Finish the game without any accessory');
-
-
+  nakedButNotAfraid(
+    9,
+    'Naked But Not Afraid',
+    'Finish the game without any accessory',
+  );
 
   const Achievement(this.id, this.name, this.description);
 

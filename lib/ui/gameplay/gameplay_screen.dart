@@ -38,7 +38,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
   void initState() {
     super.initState();
     final username = context.read<AuthProvider>().username;
-    context.read<GameplayProvider>().init(gameData: widget.gameData,username: username);
+    context.read<GameplayProvider>().init(
+      gameData: widget.gameData,
+      username: username,
+    );
   }
 
   @override
@@ -384,8 +387,12 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       ),
                       _ => PauseDialog(
                         onRestart: () {
-                          final username = context.read<AuthProvider>().username;
-                          gameplay.init(gameData: widget.gameData,username: username);
+                          final username =
+                              context.read<AuthProvider>().username;
+                          gameplay.init(
+                            gameData: widget.gameData,
+                            username: username,
+                          );
                         },
                         onSave: () {
                           gameplay.uiAction(SaveToDevice());

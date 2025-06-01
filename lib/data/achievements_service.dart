@@ -1,5 +1,6 @@
 import 'package:card_crawler/provider/gameplay/type/achievement.dart';
 import 'package:card_crawler/data/api_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -7,13 +8,19 @@ class AchievementsService {
   static const String _key = 'achievements';
 
   static Future<void> unlockAchievement(
-      Achievement achievement, String? username) async {
+    Achievement achievement,
+    String? username,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
-    final unlockedIds = (prefs.getStringList(_key) ?? []).map(int.parse).toSet();
+    final unlockedIds =
+        (prefs.getStringList(_key) ?? []).map(int.parse).toSet();
 
     if (!unlockedIds.contains(achievement.id)) {
       unlockedIds.add(achievement.id);
-      await prefs.setStringList(_key, unlockedIds.map((id) => id.toString()).toList());
+      await prefs.setStringList(
+        _key,
+        unlockedIds.map((id) => id.toString()).toList(),
+      );
       if (username != null) {
         syncAchievements(username);
       }
@@ -29,24 +36,32 @@ class AchievementsService {
         List<String> remoteUnlockedIds = [];
 
         if (data['unlocked_ids'] != null && data['unlocked_ids'] is List) {
-          remoteUnlockedIds = (data['unlocked_ids'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList();
+          remoteUnlockedIds =
+              (data['unlocked_ids'] as List<dynamic>)
+                  .map((e) => e.toString())
+                  .toList();
         }
 
         final prefs = await SharedPreferences.getInstance();
-        final unlockedIds = (prefs.getStringList(_key) ?? []).map(int.parse).toSet();
+        final unlockedIds =
+            (prefs.getStringList(_key) ?? []).map(int.parse).toSet();
         unlockedIds.addAll(remoteUnlockedIds.map((id) => int.parse(id)));
         ApiService.updateAchievements(username, unlockedIds.toList());
-        await prefs.setStringList(_key, unlockedIds.map((id) => id.toString()).toList());
+        await prefs.setStringList(
+          _key,
+          unlockedIds.map((id) => id.toString()).toList(),
+        );
       }
     } catch (e) {
-      print('Error syncing achievements: $e');
+      if (kDebugMode) {
+        print('Error syncing achievements: $e');
+      }
     }
   }
 
-  static Future<(List<Achievement>, List<Achievement>)>
-  getAchievements(String? username) async {
+  static Future<(List<Achievement>, List<Achievement>)> getAchievements(
+    String? username,
+  ) async {
     if (username != null) {
       await syncAchievements(username);
     }

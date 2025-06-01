@@ -2,8 +2,7 @@ import '../../model/game_data.dart';
 import 'effect.dart';
 
 class HolyHammer extends OnUse {
-  HolyHammer()
-    : super('Holy Hammer', 'Fighting an enemy will recover 1 HP');
+  HolyHammer() : super('Holy Hammer', 'Fighting an enemy will recover 1 HP');
 
   @override
   void trigger(GameData data) {
@@ -51,7 +50,7 @@ class IchorSickle extends OnUse {
   @override
   void trigger(GameData data) {
     data.pickedCard?.value -= 3;
-    if ((data.pickedCard?.value ?? 0) < 0){
+    if ((data.pickedCard?.value ?? 0) < 0) {
       data.pickedCard?.value = 0;
     }
   }
@@ -65,8 +64,7 @@ class CursedAxe extends OnUse {
       );
 
   @override
-  void trigger(GameData data) {
-  }
+  void trigger(GameData data) {}
 }
 
 class BloodlustBlade extends OnUse {
@@ -96,11 +94,7 @@ class BlueStaff extends OnUse {
 }
 
 class WarAxe extends OnUse {
-  WarAxe()
-    : super(
-        'War Axe',
-        'This weapon gets stronger for every 5 hp lost',
-      );
+  WarAxe() : super('War Axe', 'This weapon gets stronger for every 5 hp lost');
 
   @override
   void trigger(GameData data) {

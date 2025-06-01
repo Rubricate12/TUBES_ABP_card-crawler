@@ -2,8 +2,10 @@ import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-class EmptyAchievementsPlaceholder extends StatelessWidget {
-  const EmptyAchievementsPlaceholder({super.key});
+class EmptyEntriesCard extends StatelessWidget {
+  const EmptyEntriesCard({super.key, required this.message});
+
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class EmptyAchievementsPlaceholder extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(16.0 * uiScale),
             child: Text(
-              'None',
+              message,
               style: TextStyle(fontSize: 14.0 * uiScale),
               textAlign: TextAlign.center,
             ),

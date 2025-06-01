@@ -79,7 +79,7 @@ class Ally extends OnKill {
     data.weapon = newWeapon;
     data.durability = 20;
     for (var card in data.accessories) {
-      if (card.effect is HeroCape){
+      if (card.effect is HeroCape) {
         data.weapon?.value += 3;
       }
     }
@@ -135,7 +135,7 @@ class Opportunist extends OnPicked {
 
   @override
   void trigger(GameData data) {
-    if (data.weapon == null){
+    if (data.weapon == null) {
       data.buff = 5;
     }
   }
@@ -180,10 +180,9 @@ class Vengeful extends OnPicked {
   void trigger(GameData data) {
     try {
       var firstMonster = data.graveyard.lastWhere(
-            (card) => card.type == GameCardType.monster,
+        (card) => card.type == GameCardType.monster,
       );
       data.buff = (firstMonster.value / 2).toInt();
-    } on StateError catch (_, _) {
-    }
+    } on StateError catch (_, _) {}
   }
 }

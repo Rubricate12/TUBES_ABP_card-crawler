@@ -1,6 +1,6 @@
 import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:card_crawler/ui/main_menu/widget/achievement_card.dart';
-import 'package:card_crawler/ui/main_menu/widget/empty_achievements_placeholder.dart';
+import 'package:card_crawler/ui/main_menu/widget/empty_entries_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../provider/gameplay/type/achievement.dart';
@@ -44,7 +44,7 @@ class AchievementsDialog extends StatelessWidget {
                 ),
               )
             else
-              EmptyAchievementsPlaceholder(),
+              EmptyEntriesCard(message: 'None'),
             Text('LOCKED', style: TextStyle(fontSize: 24.0 * uiScale)),
             if (lockedAchievements.isNotEmpty)
               ...List.generate(
@@ -58,7 +58,7 @@ class AchievementsDialog extends StatelessWidget {
                 ),
               )
             else
-              EmptyAchievementsPlaceholder(),
+              EmptyEntriesCard(message: 'None'),
           ],
         ),
       ),

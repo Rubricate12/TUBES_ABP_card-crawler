@@ -123,7 +123,11 @@ class GameplayProvider extends ChangeNotifier {
                   _data.hasHealed = true;
                 }
                 _data.graveyard.add(card);
-                if (card.effect == VolatileElixir() && _data.weapon != null && _data.accessories.length >= 3) _unlockAchievement(Achievement.oops);
+                if (card.effect == VolatileElixir() &&
+                    _data.weapon != null &&
+                    _data.accessories.length >= 3) {
+                  _unlockAchievement(Achievement.oops);
+                }
               }
             case GameCardType.weapon:
               {
@@ -180,9 +184,13 @@ class GameplayProvider extends ChangeNotifier {
                   _data.weapon?.effect.trigger(_data);
                 }
 
-                if(card.value == 0) _unlockAchievement(Achievement.reducedToAtoms);
+                if (card.value == 0) {
+                  _unlockAchievement(Achievement.reducedToAtoms);
+                }
                 _data.score += card.value * 100;
-                if (_data.score >= 10000) _unlockAchievement(Achievement.highScore);
+                if (_data.score >= 10000) {
+                  _unlockAchievement(Achievement.highScore);
+                }
               }
             case GameCardType.accessory:
               {
@@ -200,18 +208,24 @@ class GameplayProvider extends ChangeNotifier {
             if (_data.deck.isEmpty) _unlockAchievement(Achievement.soClose);
 
             if (_username != null) {
-              LeaderboardService.sendLeaderboardEntry(
-                  LeaderboardEntry(username: _username!, score: score));
+              LeaderboardService.addLeaderboardEntry(
+                LeaderboardEntry(username: _username!, score: score),
+              );
             }
           } else if (_data.isDungeonFieldEmpty() && _data.deck.isEmpty) {
             _unlockAchievement(Achievement.dungeonCrawler);
-            if (_data.health == 20) _unlockAchievement(Achievement.perfectAdventurer);
-            if (_data.accessories.isEmpty) _unlockAchievement(Achievement.nakedButNotAfraid);
+            if (_data.health == 20) {
+              _unlockAchievement(Achievement.perfectAdventurer);
+            }
+            if (_data.accessories.isEmpty) {
+              _unlockAchievement(Achievement.nakedButNotAfraid);
+            }
             _queueState(Finished(isWin: true));
 
             if (_username != null) {
-              LeaderboardService.sendLeaderboardEntry(
-                  LeaderboardEntry(username: _username!, score: score));
+              LeaderboardService.addLeaderboardEntry(
+                LeaderboardEntry(username: _username!, score: score),
+              );
             }
           }
 

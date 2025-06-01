@@ -23,15 +23,10 @@ class CardCrawlerApp extends StatelessWidget {
         ),
         inputDecorationTheme: InputDecorationTheme(
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.black,
-            ),
+            borderSide: BorderSide(color: Colors.black),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.black,
-              width: 2.0,
-            ),
+            borderSide: BorderSide(color: Colors.black, width: 2.0),
           ),
           floatingLabelStyle: TextStyle(color: Colors.black),
         ),

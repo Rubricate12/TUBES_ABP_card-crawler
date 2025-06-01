@@ -40,9 +40,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'Welcome to Card Crawler',
                 style: TextStyle(color: Colors.white, fontSize: 48.0 * uiScale),
               ),
-              SizedBox(
-                height: 48.0,
-              ),
+              SizedBox(height: 48.0),
               MenuContainer(
                 children: [
                   MenuItem(
@@ -56,7 +54,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   MenuItem(
                     title: 'PLAY AS GUEST',
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        GameRoute.mainMenu.path,
+                      );
                     },
                   ),
                 ],

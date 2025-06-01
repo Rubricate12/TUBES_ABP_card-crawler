@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:card_crawler/data/achievements_service.dart';
 import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +22,9 @@ class _AuthDialogState extends State<AuthDialog> {
   final TextEditingController _passwordController = TextEditingController();
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _submit() async {
@@ -38,31 +37,41 @@ class _AuthDialogState extends State<AuthDialog> {
     }
 
     try {
-      final response = _isLogin
-          ? await ApiService.login(username, password)
-          : await ApiService.register(username, password);
+      final response =
+          _isLogin
+              ? await ApiService.login(username, password)
+              : await ApiService.register(username, password);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
 
         if (data['user'] == null || data['user']['username'] == null) {
-          _showMessage('Error: Invalid response from server - user data missing.');
+          _showMessage(
+            'Error: Invalid response from server - user data missing.',
+          );
           return;
         }
 
         final String authenticatedUsername = data['user']['username'];
 
         if (authenticatedUsername.isEmpty) {
-          _showMessage('Error: Invalid response from server - username is empty.');
+          _showMessage(
+            'Error: Invalid response from server - username is empty.',
+          );
           return;
         }
 
-        _showMessage('Success: ${data['message'] ?? '${_isLogin ? 'Logged in' : 'Registered'} successfully!'}');
+        _showMessage(
+          'Success: ${data['message'] ?? '${_isLogin ? 'Logged in' : 'Registered'} successfully!'}',
+        );
 
-        if(!mounted) return;
+        if (!mounted) return;
 
-        Provider.of<AuthProvider>(context, listen: false).login(authenticatedUsername);
-        AchievementsService.syncAchievements(username);
+        Provider.of<AuthProvider>(
+          context,
+          listen: false,
+        ).login(authenticatedUsername);
+
         if (mounted) {
           Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
         }
@@ -103,9 +112,7 @@ class _AuthDialogState extends State<AuthDialog> {
             SizedBox(height: 12.0),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
+              decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
             SizedBox(height: 24.0),
