@@ -1,3 +1,4 @@
+import 'package:card_crawler/data/leaderboard_service.dart';
 import 'package:card_crawler/provider/gameplay/type/achievement.dart';
 import 'package:flutter/material.dart';
 
@@ -29,14 +30,9 @@ class MainMenuProvider extends ChangeNotifier {
   }
 
   Future<void> loadLeaderboard() async {
+    var leaderboardEntries = await LeaderboardService.getLeaderboardEntry();
     _leaderboardEntries.clear();
-    _leaderboardEntries.addAll(
-      [
-        LeaderboardEntry(username: 'Vito', score: 1000),
-        LeaderboardEntry(username: 'Riyan', score: 800),
-        LeaderboardEntry(username: 'Hansel', score: 600),
-      ]
-    );
+    _leaderboardEntries.addAll(leaderboardEntries);
     notifyListeners();
   }
 

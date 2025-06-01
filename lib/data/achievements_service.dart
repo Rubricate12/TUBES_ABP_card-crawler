@@ -37,6 +37,7 @@ class AchievementsService {
         final prefs = await SharedPreferences.getInstance();
         final unlockedIds = (prefs.getStringList(_key) ?? []).map(int.parse).toSet();
         unlockedIds.addAll(remoteUnlockedIds.map((id) => int.parse(id)));
+        ApiService.updateAchievements(username, unlockedIds.toList());
         await prefs.setStringList(_key, unlockedIds.map((id) => id.toString()).toList());
       }
     } catch (e) {

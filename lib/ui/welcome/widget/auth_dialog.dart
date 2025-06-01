@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:card_crawler/data/achievements_service.dart';
 import 'package:card_crawler/ui/extension/ui_scale.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +62,7 @@ class _AuthDialogState extends State<AuthDialog> {
         if(!mounted) return;
 
         Provider.of<AuthProvider>(context, listen: false).login(authenticatedUsername);
-
+        AchievementsService.syncAchievements(username);
         if (mounted) {
           Navigator.pushReplacementNamed(context, GameRoute.mainMenu.path);
         }

@@ -1,4 +1,5 @@
 import 'package:card_crawler/data/game_save_service.dart';
+import 'package:card_crawler/data/leaderboard_service.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/accessory_effect.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/consumable_effect.dart';
 import 'package:card_crawler/provider/gameplay/type/effect/effect.dart';
@@ -8,6 +9,7 @@ import 'package:card_crawler/provider/gameplay/model/game_card.dart';
 import 'package:card_crawler/provider/gameplay/type/gameplay_state.dart';
 import 'package:card_crawler/provider/gameplay/type/card_location.dart';
 import 'package:card_crawler/provider/gameplay/type/ui_action.dart';
+import 'package:card_crawler/provider/main_menu/model/leaderboard_entry.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/achievements_service.dart';
@@ -196,11 +198,21 @@ class GameplayProvider extends ChangeNotifier {
             _queueState(Finished(isWin: false));
             _unlockAchievement(Achievement.niceTry);
             if (_data.deck.isEmpty) _unlockAchievement(Achievement.soClose);
+
+            if (_username != null) {
+              LeaderboardService.sendLeaderboardEntry(
+                  LeaderboardEntry(username: _username!, score: score));
+            }
           } else if (_data.isDungeonFieldEmpty() && _data.deck.isEmpty) {
             _unlockAchievement(Achievement.dungeonCrawler);
             if (_data.health == 20) _unlockAchievement(Achievement.perfectAdventurer);
             if (_data.accessories.isEmpty) _unlockAchievement(Achievement.nakedButNotAfraid);
             _queueState(Finished(isWin: true));
+
+            if (_username != null) {
+              LeaderboardService.sendLeaderboardEntry(
+                  LeaderboardEntry(username: _username!, score: score));
+            }
           }
 
           if (_data.health > 20) _data.health = 20;
