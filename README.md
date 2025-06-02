@@ -37,7 +37,7 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
 * This application can run without connecting to the backend server, but some features that require server communication will not function.
 * For these features to work, the [Laravel Backend](https://github.com/Rubricate12/API_cardcrawler) should be set up and running. (Please refer to the backend repository for its specific setup instructions).
 * If running the backend locally:
-    * The device hosting the backend server **must be configured with the IP address `127.168.0.99`**.
+    * The device hosting the backend server **must be configured with the IP address `192.168.0.99`**.
     * The device or emulator running this app **must be on the same Wi-Fi network** as the device hosting the backend server.
 
 **Steps:**
@@ -54,7 +54,7 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
     ```bash
     flutter pub get
     ```
-4.  **(Optional) Prepare backend:** If you intend to use features that require the backend, ensure your Laravel backend is running, the IP of the device hosting the backend is set to `127.168.0.99`, and your app device is on the same Wi-Fi.
+4.  **(Optional) Prepare backend:** If you intend to use features that require the backend, ensure your Laravel backend is running, the IP of the device hosting the backend is set to `192.168.0.99`, and your app device is on the same Wi-Fi.
 5.  **Run the app:**
     ```bash
     flutter run
