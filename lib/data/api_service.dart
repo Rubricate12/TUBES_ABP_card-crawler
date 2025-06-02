@@ -3,7 +3,7 @@ import 'package:card_crawler/provider/main_menu/model/leaderboard_entry.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://192.168.0.99:8000/api';
+  static const String baseUrl = 'https://192.168.0.99:8000/api';
 
   static Future<void> updateAchievements(
     String username,
