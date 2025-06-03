@@ -59,3 +59,8 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
     ```bash
     flutter run
     ```
+
+## Credits
+
+* **Roguelike/RPG Items:** by [@JoeCreates](https://x.com/JoeCreates), sourced from [OpenGameArt.org](https://opengameart.org/content/roguelikerpg-items), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+* **Roguelike Monsters:** by [@JoeCreates](https://x.com/JoeCreates), sourced from [OpenGameArt.org](https://opengameart.org/content/roguelike-monsters), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
