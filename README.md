@@ -28,9 +28,9 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
 
 **Prerequisites:**
 
-* Flutter SDK installed (Follow instructions at [flutter.dev](https://flutter.dev/docs/get-started/install)).
+* Flutter SDK installed (Follow instructions at [flutter.dev](https://docs.flutter.dev/get-started/install)).
 * An editor (Android Studio with Flutter plugin, or VS Code with Flutter extension).
-* To run the app on a specific platform (iOS, Android, web, desktop), ensure you have the necessary development tools and SDKs for that platform installed. Please refer to the official Flutter documentation for detailed platform-specific setup: [Build and release for different platforms](https://docs.flutter.dev/deployment).
+* To run the app on a specific platform (iOS, Android, web, desktop), ensure you have the necessary development tools and SDKs for that platform installed (often covered in the Flutter installation guide linked above).
 
 **Backend Server Setup (For Certain Features):**
 
