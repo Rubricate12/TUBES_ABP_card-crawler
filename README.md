@@ -2,29 +2,32 @@
 
 Card Crawler is a card game, built with Flutter. In this game, there are 4 types of cards: Weapon, Accessory, Consumable, and Monster. Each card can have different effects that will activate when their conditions are met. The player is considered to have won the game if all the cards in the deck have been used up and the player still has remaining health (more than 0).
 
-## Screenshots:
+## Screenshots
 
 <img src="https://github.com/user-attachments/assets/bb087549-2d71-4090-bc20-77ae6fc8b341">
 <img src="https://github.com/user-attachments/assets/e39b031a-f69a-4fce-8e7a-7b7d705fc8ff">
 
-## Features:
+## Features
 
 * **Save & Continue**
 * **Leaderboard**
 * **Achievements**
 
-## Technologies Used:
+## Technologies Used
 
-### Languages:
-* **Dart**
+**Languages:**
 
-### Frameworks:
-* **Flutter**
+* Dart
 
-### State Management:
-* **Provider**
+**Frameworks:**
 
-## How to Run:
+* Flutter
+
+**State Management:**
+
+* Provider
+
+## How to Run
 
 **Prerequisites:**
 
@@ -62,5 +65,6 @@ Card Crawler is a card game, built with Flutter. In this game, there are 4 types
 
 ## Credits
 
-* **Roguelike/RPG Items:** by [@JoeCreates](https://x.com/JoeCreates), sourced from [OpenGameArt.org](https://opengameart.org/content/roguelikerpg-items), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
-* **Roguelike Monsters:** by [@JoeCreates](https://x.com/JoeCreates), sourced from [OpenGameArt.org](https://opengameart.org/content/roguelike-monsters), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+* **Backgrounds** from [OpenGameArt.org](https://opengameart.org/content/backgrounds-3) by Nidhoggn, licensed under [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+* **Roguelike/RPG Items** from [OpenGameArt.org](https://opengameart.org/content/roguelikerpg-items) by [@JoeCreates](https://x.com/JoeCreates), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+* **Roguelike Monsters** from [OpenGameArt.org](https://opengameart.org/content/roguelike-monsters) by [@JoeCreates](https://x.com/JoeCreates), licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
